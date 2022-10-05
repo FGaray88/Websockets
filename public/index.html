@@ -1,41 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
-    <script src="/socket.io/socket.io.js" defer></script>
-    <script src="./main.js" defer></script>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FG-Backend</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" />
+    <link rel="stylesheet" href="./styles.css" />
 </head>
+
 <body>
-    <form id="form-products">
-        <div style="margin-bottom: 16px;">
-            <div style="display: flex;justify-content: center;align-items: center;flex-direction: column;">
-                <label for="nombre"> Titulo: </label>
-                <br>
-                <input type="text" name="nombre" id="form-title" style="margin-bottom: 16px;" class="input-file">
-            </div>
-            <div style="display: flex;justify-content: center;align-items: center;flex-direction: column;">
-                <label for="precio"> Precio: </label>
-                <br>
-                <input type="number" name="precio" id="form-price" style="margin-bottom: 16px;" step=".01" class="input-file">
-            </div>
-            <div style="display: flex;justify-content: center;align-items: center;flex-direction: column;">
-                <label for="descr"> Descripcion: </label>
-                <br>
-                <input type="text" name="descr" id="form-descripcion" style="margin-bottom: 16px;" class="input-file">
-            </div>
-            <div style="display: flex;justify-content: center;align-items: center;flex-direction: column;">
-                <label for="picture"> URL Imagen: </label>
-                <br>
-                <input type="text" name="picture" id="form-thumbnail" style="margin-bottom: 16px;" class="input-file">
-            </div>
-            <div style="display: flex; justify-content: center; align-items: center;"><input type="submit"
-                value="Crear producto" class="submit-button"></div>
+    <nav class="navbar navbar-dark custom-nav-background">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+                <img src="data:image/png;base64,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" alt="" width="25" height="24"
+                    class="d-inline-block align-text-top" />
+                <span class="navbar-text"> FG-Back-App</span>
+            </a>
         </div>
-    </form>
-    <div id="divCentral"></div>
+    </nav>
+    <div class="container login-container">
+        <div class="card" style="width: 1280px;">
+            <div class="row g-0">
+                <div class="col-md-8" style="display: flex;">
+                    <img src="https://www.developer2hire.com/assets/uploads/hire-backend-developer.jpg"
+                        class="nav-img" alt="..." />
+                </div>
+                <div class="col-md-4">
+                    <div class="card-body">
+                        <form action="/login" method="post">
+                            <div style="margin-bottom: 125px;">
+                                <h3 class="text-center">Bienvenido</h3>
+                            </div>
+                            <div class="mb-4">
+                                <label for="exampleInputEmail1" class="form-label">Ingrese su email para ingresar</label>
+                                <input type="text" class="form-control" id="username" name="username" required>
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <button type="submit" class="btn btn-default login-button">Ingresar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
+
 </html>
