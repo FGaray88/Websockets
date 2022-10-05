@@ -1,6 +1,7 @@
 
 
-const socket = io();
+const chatForm = document.getElementById("chat-form");
+const textInput = document.getElementById("text-input");
 
 const formProducts = document.getElementById("form-products");
 
@@ -8,6 +9,8 @@ const inputTitle = document.getElementById("form-title");
 const inputPrice = document.getElementById("form-price");
 const inputDescripcion = document.getElementById("form-descripcion");
 const inputThumbnail = document.getElementById("form-thumbnail");
+
+const socket = io();
 
 
 // chat
@@ -44,6 +47,7 @@ const renderMessage = (socketId, data) => {
 };
 
 
+
 const renderMessages = (data) => {
     const html = data.map((elem) => {
         let fragment = `
@@ -57,8 +61,8 @@ const renderMessages = (data) => {
     }).join('\n');
     document.getElementById('messages').innerHTML = html;};
 
-const chatForm = document.getElementById("chat-form");
-const textInput = document.getElementById("text-input");
+
+
 
 
 
@@ -87,17 +91,7 @@ socket.on("messages", (data) => {
 });
 
 
-/* socket.on("messages", (data) => {
-    const html = data.map((message) => {
-        return `
-            <span>
-                <strong>${message.author}:</strong>${message.text}
-            </span><br>
-        `;
 
-    }).join("\n")
-    document.getElementById('divChat').innerHTML = html;
-}); */
 
 
 // hasta aqui chat
@@ -141,8 +135,6 @@ formProducts.addEventListener("submit", (event) => {
         descr: inputDescripcion.value
     };
     socket.emit("new-product", newProduct);
-    
-/*     textInput.value = ""; */
 });
 
 

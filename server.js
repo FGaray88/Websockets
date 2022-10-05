@@ -15,7 +15,7 @@ const httpServer = new HttpServer(app);
 const io = new SocketServer(httpServer);
 
 
-
+const botName = "FG-Bot"
 const messages = [];
 const users = [];
 
@@ -54,7 +54,7 @@ httpServer.listen(PORT, () => {
 });
 
 
-const botName = "FG-Bot"
+
 
 
 // on (escuchar eventos) emit (emitir eventos)
@@ -66,18 +66,29 @@ io.on("connection", (socket) => {
     socket.emit("messages", [...messages]);
 
     socket.on("join-chat", (data) => {
+        
         const newUser = {
             id: socket.id,
             username: data.username
         };
         users.push(newUser);
-        socket.emit("chat-message", formatMessage(null, botName, `Bienvenido`));
+        console.log(users);
+        socket.emit("chat-message", formatMessage(null, botName, `Bienvenido al chat`));
     })
 
     socket.on("new-product", (data) => {
         const addProduct =  products.save(data)
         io.emit("products", [...productos]);
         // este emit al ser IO no necesita ser escuchado del lado del cliente, cierto?
+    });
+
+    socket.on("new-message", (data) => {
+        const author = users.find(user => user.id === socket.id);
+        console.log("usuarios: ", users);
+        console.log("author: ", author);
+        const newMessage = formatMessage(socket.id, author.username, data);
+        messages.push(newMessage);
+        io.emit("chat-message", newMessage);
     });
 
 
