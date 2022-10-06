@@ -1,10 +1,9 @@
 
 
 const chatForm = document.getElementById("chat-form");
-const textInput = document.getElementById("text-input");
+
 
 const formProducts = document.getElementById("form-products");
-
 const inputTitle = document.getElementById("form-title");
 const inputPrice = document.getElementById("form-price");
 const inputDescripcion = document.getElementById("form-descripcion");
@@ -43,7 +42,7 @@ const renderMessage = (socketId, data) => {
     }
     div.classList.add(className);
     div.innerHTML = html;
-    document.getElementById('messages').appendChild(div);
+    document.getElementById('divChat').appendChild(div);
 };
 
 
@@ -59,25 +58,29 @@ const renderMessages = (data) => {
         </div>`;
         return fragment;
     }).join('\n');
-    document.getElementById('messages').innerHTML = html;};
+    document.getElementById('divChat').innerHTML = html;
+};
 
 
 
 
 
 
-const { username } = Qs.parse(window.location.search, {
-    ignoreQueryPrefix: true
-});
 
 
 
-socket.emit("join-chat", { username });
 
 
 chatForm.addEventListener("submit", (event) => {
     event.preventDefault();
-    const msg = textInput.value;
+    const textInput = document.getElementById("text-input");
+    const user = document.getElementById("user-input");
+    const msg = {
+        text: textInput.value,
+        user: user.value
+    }
+    
+
     socket.emit("new-message", msg);
     textInput.value = "";
 });
@@ -87,21 +90,13 @@ socket.on("chat-message", (data) => {
 });
 
 socket.on("messages", (data) => {
+
     renderMessages(data);
+    console.log(data);
 });
 
 
-
-
-
 // hasta aqui chat
-
-
-
-
-
-
-
 
 
 // products
