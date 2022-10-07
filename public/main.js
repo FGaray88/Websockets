@@ -1,8 +1,4 @@
-
-
 const chatForm = document.getElementById("chat-form");
-
-
 const formProducts = document.getElementById("form-products");
 const inputTitle = document.getElementById("form-title");
 const inputPrice = document.getElementById("form-price");
@@ -13,7 +9,6 @@ const socket = io();
 
 
 // chat
-
 
 const renderMessage = (socketId, data) => {
     const div = document.createElement('div');
@@ -45,8 +40,6 @@ const renderMessage = (socketId, data) => {
     document.getElementById('divChat').appendChild(div);
 };
 
-
-
 const renderMessages = (data) => {
     const html = data.map((elem) => {
         let fragment = `
@@ -62,15 +55,6 @@ const renderMessages = (data) => {
 };
 
 
-
-
-
-
-
-
-
-
-
 chatForm.addEventListener("submit", (event) => {
     event.preventDefault();
     const textInput = document.getElementById("text-input");
@@ -79,8 +63,6 @@ chatForm.addEventListener("submit", (event) => {
         text: textInput.value,
         user: user.value
     }
-    
-
     socket.emit("new-message", msg);
     textInput.value = "";
 });
@@ -90,17 +72,11 @@ socket.on("chat-message", (data) => {
 });
 
 socket.on("messages", (data) => {
-
     renderMessages(data);
-    console.log(data);
 });
-
-
 // hasta aqui chat
 
-
 // products
-
 
 const renderProducts = (products) => {
     fetch("http://localhost:8080/products.hbs")
@@ -111,18 +87,12 @@ const renderProducts = (products) => {
         document.getElementById('divCentral').innerHTML = html;
     })
 }
-
-
-
 socket.on("products", (data) => {
     renderProducts(data)
 });
 
-
-
 formProducts.addEventListener("submit", (event) => {
     event.preventDefault();
-    
     const newProduct = {
         nombre: inputTitle.value,
         precio: +(inputPrice.value),
