@@ -16,8 +16,8 @@ class Messages {
             }; */
             const data = leerArchivo(this.archivo);
             data.push(message)
-            escribirArchivo(this.archivo, data)
-            console.log("persistencia: ", data);
+            escribirArchivo(this.archivo, JSON.stringify(data))
+            
     }
 
     getAll() {
@@ -28,13 +28,12 @@ class Messages {
 
 leerArchivo = (archivo) => {
         const data = fs.readFileSync(archivo,"utf-8")
-        console.log("mensaje repetido ", data);
-        return data;
+        const dataParse = JSON.parse(data)
+        return dataParse;
 }
 
 escribirArchivo = (archivo, data) => {
         fs.writeFileSync(archivo, data)
-        console.log("archivo actualizado con exito")
 }
 
 module.exports = Messages;

@@ -6,7 +6,7 @@ const { formatMessage } = require("./utils/utils")
 const Products = require("./model/products");
 const products = new Products();
 const Messages = require("./model/contMessages");
-const messages = new Messages("./model/messages.js");
+const messages = new Messages("./model/messages.json");
 
 const PORT = process.env.PORT || 8080;
 const app = express();
